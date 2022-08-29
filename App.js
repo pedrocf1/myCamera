@@ -228,7 +228,16 @@ export default function App() {
     const { status } = await Permissions.askAsync(MEDIA_LIBRARY);
     if (status === "granted") {
       const assert = await MediaLibrary.createAssetAsync(photo);
-      await MediaLibrary.createAlbumAsync("Tutorial", assert);
+      const album = await MediaLibrary.getAlbumAsync("casa bonita");
+      console.log("albuim", album)
+      if(album != null){
+        const result = await MediaLibrary.addAssetsToAlbumAsync(assert, album.id, false)
+        console.log("result", result)
+      }else{
+        const result = await MediaLibrary.createAlbumAsync("casa bonita", assert, false);
+        // create album
+        console.log("result", result)
+      }
     } else {
       console.log("Oh You Missed to give permission");
     }
